@@ -10,12 +10,10 @@ namespace FailTracker.Web.Controllers
 	public class HomeController : Controller
 	{
 	    private readonly ApplicationDbContext _context;
-	    private readonly ISayHello _sayHello;
 
-	    public HomeController(ApplicationDbContext context, ISayHello sayHello)
+	    public HomeController(ApplicationDbContext context)
 	    {
 	        _context = context;
-	        _sayHello = sayHello;
 	    }
 
 	    public ActionResult Index()
@@ -24,13 +22,4 @@ namespace FailTracker.Web.Controllers
 		}
 	}
 
-    public interface ISayHello
-    {
-        
-    }
-
-    public class SayHello : ISayHello
-    {
-
-    }
 }
