@@ -4,6 +4,10 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using FailTracker.Web.Data;
+using FailTracker.Web.Domain;
+using FailTracker.Web.Filters;
+using FailTracker.Web.Models.Issue;
+using Microsoft.AspNet.Identity;
 
 namespace FailTracker.Web.Controllers
 {
@@ -20,6 +24,22 @@ namespace FailTracker.Web.Controllers
         public ActionResult IssueWidget()
         {
             return Content("Here's where issues would go!");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Log("Created issue")]
+        public ActionResult New(NewIssueForm form)
+        {
+            var userId = User.Identity.GetUserId();
+
+            var user = _context.Users.Find(userId);
+
+            _context.Issues.Add(new Issue(user, form.Subject, form.Body));
+
+            _context.SaveChanges();
+
+            return RedirectToAction("Index", "Home");
         }
     }
 }
